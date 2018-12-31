@@ -1,14 +1,23 @@
-(defun write-file (file value)
-  (with-open-file (str file
-		  :direction :output
-		  :if-does-not-exist :create
-		  :if-exists :append)
-  (format str value)))
+(defvar h (list 1 2 3 4 5 6))
+(defvar x 1)
+(defvar ch 'h)
+(defvar c h)
+(defvar f 6.02)
 
-(write-file "~/Desktop/test.txt" "THIS IS A TEST FILE WRITTEN IN COMMON LISP")
+(format t "ch: ~s ~%"(type-of ch))
+(format t "x: ~s ~%" (type-of x))
+(format t "f: ~s ~%" (type-of f))
+(format t "c: ~s ~%" (type-of c))
+(format t "h: ~s ~%" (type-of h))
+(format t "last value in h: ~s ~%" (car (last h)))
 
-(defun test(value) (format t (concatenate 'string "test " value)))
+(defmacro setvalten(val)
+  (setq val 10) (print val))
 
-;;(test "value")
+(setq a 40)
+(print '( + 5 a ))
 
-(load "quicklisp.lisp")
+(dolist (entry allocation-log)
+  (case (first entry)
+    (allocate (plot-allocation (second entry)))
+    (free (plot-free (second entry)))))
