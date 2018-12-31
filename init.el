@@ -1,1 +1,0 @@
-/home/evanpeterjones/.emacs.d/init.el
