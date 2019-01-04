@@ -9,7 +9,7 @@
 
 (defun main (file)
   (setf *table (load-file file 128)))
-  ;; call methods to loop back through hashtable
+  ;; call methods to loop back through hashtable and print most common values
 
 (defun load-file (file size)
   "create a hashtable keyed by characters in a file to count occurrences"
