@@ -9,10 +9,11 @@
 
 
 (defvar a (make-instance 'test
-		      :fname "shit"
+		      :fname "mr."
 		      :lname "face"))
 
-(defun get-name (value)
-  (list (
+(defun get-name ()
+  (car (list "dumb" "list")))
 
-(print 
+(print (cddr '(lisp evaluation test)))
+(print (car (list lisp evaluation test)))
