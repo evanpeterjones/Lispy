@@ -15,7 +15,7 @@
 ;;;;
 
 (cl:in-package #:cl-user)
-n(cl:defpackage #:qlqs-user
+(cl:defpackage #:qlqs-user
   (:use #:cl))
 (cl:in-package #:qlqs-user)
 
