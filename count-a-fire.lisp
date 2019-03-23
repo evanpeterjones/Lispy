@@ -5,43 +5,29 @@
 ;; in the end will display the 5 most frequent characters in the story
 ;; which should spell out "E T H A N"
 
-;; (defvar *table* nil)
+(ql:quickload :cl-ppcre)
 
-;;(defvar number-of-characters 0)
+(defparameter number-of-characters 0)
+(defparameter file "~/Documents/lisp/to-build-a-fire.txt")
 
-;;(defvar arr (make-array '(26)))
+(defun is-alpha (ch)
+  "simple regex scanner, returns true if string is only alpha characters"
+  (let ((ptrn (cl-ppcre:create-scanner "(a-zA-Z)*")))
+    (cl-ppcre:scan ptrn ch)))
 
-;;(let ((in-file (open file :if-does-not-exist nil)))
-;;  (when in-file
-;;    (
-;;(with-open-file (in file)
-;;  (map ' #'(lambda (x)
-;;		   (char 
-(defvar number-of-characters 0)
-(defvar arr (make-array '(26)))
-(defvar file "~/Documents/lisp/to-build-a-fire.txt")
-
-(with-open-file (stream file)
-  (let ((content (make-string (file-length stream))))
-    (read-sequence contents stream)
-    (print content)
-    content))
-
-
-
-(defun load-file (file size)
-  "create a hashtable keyed by characters in a file to count occurrences"
-  (let ((*table* (make-hash-table :size size)))
+(defun load-file-to-array (file size)
+  "create and return an array with all characters indexed by ASCII values"
+  (let ((char-arr (make-array size :element-type 'integer :initial-element 0)))
     (with-open-file (in file)
-		    (loop for word = (read-char in nil) while word do
-			  (if (gethash word *table*)
-			      (setf (gethash word *table*) (+ 1 (gethash word *table*)))
-			    (setf (gethash word *table*) 1))
-			  (setf number-of-characters (+ 1 number-of-characters)))) *table*))
+      (loop for word = (read-char in nil) while word do
+	   (let ((count (aref char-arr (char-code word))))
+	     (if (is-alpha word)
+		 (setf (aref char-arr (char-code word)) (+ 1 count))
+		 ())))) char-arr))
 
 (defun main (file)
-  (setf *table* (load-file file 128))
-  ;; call methods to loop back through hashtable and print most common values
+  "call methods to loop back through hashtable and print most common values"
+  (defvar *table* (load-file-to-array file 256))
   (print number-of-characters))
 
 (main "to-build-a-fire.txt")
