@@ -1,5 +1,3 @@
-(load "~/quicklisp/setup.lisp")
-
 (ql:quickload :woo)
 
 (woo:run
