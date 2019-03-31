@@ -7,5 +7,3 @@
 (in-package :little-endian)
 
 
-
-

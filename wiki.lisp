@@ -13,5 +13,3 @@
 
 (print-non-nil (parse-html-from-wiki "https://en.wikipedia.org/wiki/List_of_alcoholic_drinks?oldformat=true"))
 
-
-
