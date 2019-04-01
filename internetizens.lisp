@@ -19,9 +19,9 @@
 
 (defun slug (string)
   (substitute #\- #\Space
-	       (string-downcase
-		(string-trim '(#\Space #\Tab #\Newline)
-			     string))))
+	      (string-downcase
+	       (string-trim '(#\Space #\Tab #\Newline)
+			    string))))
 
 ;;;; HTML Templates
 
@@ -72,33 +72,34 @@
   (blogpage))
 
 (define-route post ("post/:id")
-	(let* ((id (parse-integer id :junk-allowed t))
-					(post (elt *posts* id)))
-		(blogpage (list post))))
+  (let* ((id (parse-integer id :junk-allowed t))
+	 (post (elt *posts* id)))
+    (blogpage (list post))))
 
 (define-route author ("author/:id")
-	(let ((posts (loop for post in *posts*
-											if (equal id (getf post :author-id))
-											collect post)))
-		(blogpage posts)))
+  (let ((posts (loop for post in *posts*
+		     if (equal id (getf post :author-id))
+		     collect post)))
+    (blogpage posts)))
 
 (define-route add ("add")
-	(multiple-value-bind (username password)
-		(hunchentoot:authorization)
-			(if (and (equalp username "user")
-			 				 (equalp password "pass"))
-					(add-post-form)
-					(hunchentoot:require-authorization))))
+  (multiple-value-bind (username password)
+		       (hunchentoot:authorization)
+		       ; this will actually have to be user specific once I setup the db
+		       (if (and (equalp username "user")
+				(equalp password "pass"))
+			   (add-post-form)
+			 (hunchentoot:require-authorization))))
 
 (define-route add/post ("add" :method :post)
-	(let ((author (hunchentoot:post-parameter "author"))
-				(title  (hunchentoot:post-parameter "title"))
-				(content(hunchentoot:post-parameter "content")))
-			(push (list :author author
-									:author-id (slug author)
-									:title title
-									:content content) *posts*)
-							(redirect 'home)))
+  (let ((author (hunchentoot:post-parameter "author"))
+	(title  (hunchentoot:post-parameter "title"))
+	(content(hunchentoot:post-parameter "content")))
+    (push (list :author author
+		:author-id (slug author)
+		:title title
+		:content content) *posts*)
+    (redirect 'home)))
 
 ;;;; start :)
 
