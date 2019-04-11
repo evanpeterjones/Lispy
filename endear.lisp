@@ -3,8 +3,8 @@
 
 (in-package :little-endian)
 
-
 ;;; this cannot be the way to do this
+(ps-html ((:a :href "foobar") "bork"))
 
 (defparameter *html-tags* '((html)(head)(title)(body)
 			    (b)(h)(ul)(li)(br)(p)(img)(a)))

@@ -1,9 +1,11 @@
-(ql:quickload :woo)
+(ql:quickload "restas")
 
-(woo:run
- (lambda (env)
-   (declare (ignore env))
-   '(200 (:content-type "text/plain") ("Hello World")))
- :server :woo
- :use-default-middlewares nil)
+(restas:define-module #:serve
+		      (:use :cl :restas))
 
+(in-package #:serve)
+
+(define-route serve ("")
+  "Hello World")
+
+(start '#:serve :port 8080)
