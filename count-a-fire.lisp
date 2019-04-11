@@ -19,20 +19,20 @@
   (let ((ptrn (create-scanner "(a-zA-Z)*")))
     (scan ptrn ch)))
 
-(defun load-file-to-array (file size)
-  "create and return an array with all characters indexed by ASCII values"
-  (+ 1 size)
-    (with-open-file (in file)
-      (loop for word = (read-char in nil) while word do
-	   (cond
-	     ((is-alpha (write-to-string word)) (format t "~A" word))
-	     (t nil))
-	   (1+ number-of-xscharacters)))
+(defun file-read (f size)
+  (let ((arr (make-array size :type 'integer)))
+    (with-open-file (stream f)
+		    (loop for line = (read-line stream nil)
+			  while line
+			  ()))))
 
 (defun main (file)
   "call methods to loop back through hashtable and print most common values"
-  (defvar *table* (load-file-to-array file 256))
-  (print number-of-characters))
+  ;;(defvar *table* (load-file-to-array file 256))
+  ;;(print number-of-characters))
+  (if (is-alpha "a")
+      ()
+      nil)
 
 (main "to-build-a-fire.txt")
 
