@@ -8,14 +8,21 @@
   (if (.exists (io/as-file a))
     (slurp a)))
 
+(defn text-to-map [text-file]
+  (let [char-map {}])
+    (map (fn [^Character c]
+      (let [key (keyword (clojure.string/lower-case c))
+            ]
+        )
+
 (defn text-to-vector [text-file]
-  (let [char-map []]
+  (let [char-vec []]
     (map (fn [^Character c]
            (let [key (keyword (clojure.string/lower-case c))
-                 inc (key char-map)]
+                 inc (key char-vec)]
              (if (not (= inc nil))
-               (def char-map (assoc char-map key (+ inc 1)))
-               (def char-map (assoc char-map key 1))))) text-file)))
+               (def char-vec (assoc char-vec key (+ inc 1)))
+               (def char-vec (assoc char-vec key 1))))) text-file)))
 
 (println (text-to-vector "this is a test"))
 
@@ -27,4 +34,4 @@
     (print-most-common (text-to-vector text))
     (println "error occurred reading file")))
 
-                                        ;(main "fire.txt")
+(main "fire.txt")

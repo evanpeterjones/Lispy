@@ -9,31 +9,40 @@
 (defpackage :count-a-fire
   (:use :cl-ppcre))
 
-(in-package :cl-ppcre)
-
-(defparameter number-of-characters 0)
-(defparameter file "~/Documents/lisp/to-build-a-fire.txt")
+(defparameter *number-of-characters* 0)
 
 (defun is-alpha (ch)
-  "simple regex scanner, returns true if string is only alpha characters"
-  (let ((ptrn (create-scanner "(a-zA-Z)*")))
-    (scan ptrn ch)))
+  "regex scanner, returns true if string is only alpha characters"
+  (let ((ptrn (cl-ppcre:create-scanner "(a-zA-Z)*")))
+    (cl-ppcre:scan ptrn ch)))
 
-(defun file-read (f size)
-  (let ((arr (make-array size :type 'integer)))
-    (with-open-file (stream f)
-		    (loop for line = (read-line stream nil)
-			  while line
-			  ()))))
+(defun remove-char (char s-list)
+  (let ((head (car s-list)))
+    (cond ((char-equal char head) (cdr s-list))
+	  (t (cons head (remove-char cdr s-list))))))
+
+(defun update-s-list (char s-list)
+  (cond (
+    ((remove-char char s-list) (
+
+(defun insert (character list s-list)
+  "insert into hash-table and sorted-list"
+  (cond (gethash character list)
+	((setf (gethash character list)                         ; update hashmap
+	       (+ 1 (gethash character list)))                  
+	 ((update-s-list character s-list))                                ; update sorted list
+	((setf (gethash character list) 1)                      ; insert init into hashmap
+	 (cons character s-list))))                             ; insert init in sorted list
+
+(defun file-load (fil)
+  (with-open-file (stream fil)
+    (do ((char (read-char stream nil)
+	       (read-char stream nil)))
+	((null char))
+     collect char)))
 
 (defun main (file)
   "call methods to loop back through hashtable and print most common values"
-  ;;(defvar *table* (load-file-to-array file 256))
-  ;;(print number-of-characters))
-  (if (is-alpha "a")
-      ()
-      nil)
+    (file-load file))
 
 (main "to-build-a-fire.txt")
-
-
