@@ -17,20 +17,22 @@
     (cl-ppcre:scan ptrn ch)))
 
 (defun remove-char (char s-list)
+  "given a list, traverse and remove a character"
   (let ((head (car s-list)))
     (cond ((char-equal char head) (cdr s-list))
 	  (t (cons head (remove-char cdr s-list))))))
 
-(defun update-s-list (char s-list)
-  (cond (
-    ((remove-char char s-list) (
+(defun update-list-arr (char arr)
+  "increase character count"
+  (loop for list in arr do 
+    (cond 
+      ((remove-char char list) (
 
 (defun insert (character list s-list)
   "insert into hash-table and sorted-list"
   (cond (gethash character list)
 	((setf (gethash character list)                         ; update hashmap
 	       (+ 1 (gethash character list)))                  
-	 ((update-s-list character s-list))                                ; update sorted list
 	((setf (gethash character list) 1)                      ; insert init into hashmap
 	 (cons character s-list))))                             ; insert init in sorted list
 
