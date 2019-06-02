@@ -18,33 +18,34 @@
 
 (defun remove-char (char s-list)
   "given a list, traverse and remove a character"
-  (let ((head (car s-list)))
-    (cond ((char-equal char head) (cdr s-list))
-	  (t (cons head (remove-char cdr s-list))))))
+  (let ((head (first s-list)))
+    (cond ((char-equal char head) (rest s-list))
+          (t (cons head (remove-char (rest s-list)))))))
 
-(defun update-list-arr (char arr)
+(defun update-count (char arr)
   "increase character count"
-  (loop for list in arr do 
-    (cond 
-      ((remove-char char list) (
+  (loop for list in arr do
+        (remove-char char list) ()))
 
 (defun insert (character list s-list)
   "insert into hash-table and sorted-list"
-  (cond (gethash character list)
-	((setf (gethash character list)                         ; update hashmap
-	       (+ 1 (gethash character list)))                  
-	((setf (gethash character list) 1)                      ; insert init into hashmap
-	 (cons character s-list))))                             ; insert init in sorted list
+  (if (is-alpha character)
+      (update-count character s-list)
+    nil))
 
 (defun file-load (fil)
-  (with-open-file (stream fil)
-    (do ((char (read-char stream nil)
-	       (read-char stream nil)))
-	((null char))
-     collect char)))
+  (let ((file-exists (probe-file fil))
+        (file-list '()))
+    (if file-exists
+        (with-open-file (stream fil)
+                        (do ((char (read-char stream nil)
+                                   (read-char stream nil)))
+                            ((null char))
+                          (append char file-list)))
+      (format (not file-exists) "File not found"))))
 
 (defun main (file)
   "call methods to loop back through hashtable and print most common values"
-    (file-load file))
+  (file-load file))
 
 (main "to-build-a-fire.txt")
