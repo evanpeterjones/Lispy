@@ -33,7 +33,17 @@
       (update-count character s-list)
     nil))
 
+(defun most-common (lst add-item)
+  "function takes a list, and adds an item at the corresponding count index ?"
+  (
+
+(defun read-file-list (lst common-lst)
+  (if (null lst)
+      common-lst
+    (read-file-list (cdr lst) (most-common common-lst (car lst)))))
+
 (defun file-load (fil)
+  "load the alpha characters of a file into a list"
   (let ((file-exists (probe-file fil))
         (file-list '()))
     (if file-exists
@@ -41,11 +51,11 @@
                         (do ((char (read-char stream nil)
                                    (read-char stream nil)))
                             ((null char))
-                          (append char file-list)))
-      (format (not file-exists) "File not found"))))
+			    (append char file-list)))
+      (format (not file-exists) "File not found")) file-list))
 
 (defun main (file)
-  "call methods to loop back through hashtable and print most common values"
-  (file-load file))
+  "main method"
+  (read-file-list (file-load file)))
 
 (main "to-build-a-fire.txt")
