@@ -7,7 +7,7 @@
 
 (write-file "~/Desktop/test.txt" "THIS IS A TEST FILE WRITTEN IN COMMON LISP")
 
-(defun test(value) (format t (concatenate 'string "test " value)))
+(defun test (value) (format t (concatenate 'string "test " value)))
 
 ;;(test "value")
 

@@ -33,3 +33,6 @@
           (get-string param))
    (t (setf (content-type*) "text/html")
       (get-html))))
+
+(defmacro infix (operator1 operation operator2)
+    (operation operator1 operator 2))

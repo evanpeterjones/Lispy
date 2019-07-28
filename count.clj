@@ -9,10 +9,10 @@
     (slurp a)))
 
 (defn text-to-map [text-file]
+  "return a text file with characters in map"
   (let [char-map {}])
     (map (fn [^Character c]
-      (let [key (keyword (clojure.string/lower-case c))
-            ]
+      (let [key (keyword (clojure.string/lower-case c))]
         )
 
 (defn text-to-vector [text-file]
@@ -21,8 +21,8 @@
            (let [key (keyword (clojure.string/lower-case c))
                  inc (key char-vec)]
              (if (not (= inc nil))
-               (def char-vec (assoc char-vec key (+ inc 1)))
-               (def char-vec (assoc char-vec key 1))))) text-file)))
+               (def char-vec (assoc key char-vec (+ inc 1)))
+               (def char-vec (assoc key char-vec 1))))) text-file)))
 
 (println (text-to-vector "this is a test"))
 
