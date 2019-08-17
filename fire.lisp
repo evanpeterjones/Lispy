@@ -1,3 +1,5 @@
+#!/usr/bin/sbcl --script
+
 ;; Evan Jones - program for my bro
 
 ;; Takes a text file, in this case, To Build a Fire by Jack London
