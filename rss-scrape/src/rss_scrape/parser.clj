@@ -1,18 +1,21 @@
-(ns rss-scrape.parser
-  (:require [http.async.client :as http]
-            [clojure.xml :as xml]
+(ns rss-scraper.parser
+  (:use [clojure.data.zip.xml :only (attr text xml->)])
+  (:require [clojure.xml :as xml]
             [clojure.zip :as zip])
   (:gen-class))
 
-(defn parse [urls]
-  (for [url urls]
-    (-> url
-        xml/parse
-        zip/xml-zip)))
+(defn parse [xml-file]
+  (let [parsed (zip/xml-zip (xml/parse xml-file))]
+    (println (get :title parsed))))
 
-(defn select [data]
-  (loop for [index 0]
-        (if (count ))
-        (recur 
+(defn download [uri file]
+  "pull last three episodes, check if they already exist, download them"
+  ())
+  
+(defn -down [uri file]
+  "Download a file from a non-redirecting url"
+  (if uri
+    (with-open [in (io/input-stream uri)
+                out (io/output-stream file)]
+      (io/copy in out))))
 
-(:content (get (:content (get data 0)) (inc index))))))

@@ -18,15 +18,15 @@
           collect (list (shorten title) url))))
 
 (defun download (episode)
-  (let ((file-name (concatenate 'string (first episode) ".mp3")))
-    (with-open-file (stream file-name :direction :output :if-exists nil)
+  (let ((file-name ))
+    (With-Open-File (stream file-name :direction :output :if-exists nil)
                     (format stream "~S" (dex:get (second episode))))))
 
 (loop for pod in podcasts 
-      do (let ((urls (parse-dom (plump:parse (dex:get pod)))))
-           (loop for val in '(first second third)
-                 do (progn 
-                      (format t "Downloading episode: ~S" (val urls))
-                      (download (val urls))))))
+      do (let ((episodes (parse-dom (plump:parse (dex:get pod)))))
+           (loop for which in '(first second third)
+		do (let ((url (eval `(,which pod))))
+                      (format t "Downloading episode: ~S" url)
+                      (trivial-download:download url (concatenate 'string (first episode) ".mp3"))))))
 
 

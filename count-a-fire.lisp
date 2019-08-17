@@ -13,13 +13,12 @@
 	(file-list '()))
     (if file-exists
 	(with-open-file (stream fil
-				:if-does-not-exist nil
 				:direction :input)
 			(do ((char (read-char stream nil)
 				   (read-char stream nil)))
 			    ((null char))
 			    (cons char file-list)))
-      (format (not file-exists) "File not found~%")) file-list))
+      (format (not file-exists) "File not found~%"))))
 
 (progn
   (format t "~%~%Attempting to run file-load function~%")

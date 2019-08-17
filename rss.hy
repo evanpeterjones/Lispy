@@ -4,8 +4,8 @@
         bs4
         os)
 
-(global podcasts)
-(setv podcasts "/home/evanpeterjones/Music/podcasts/")
+(global podcasts-dir)
+(setv podcasts-dir "/home/evanpeterjones/Music/podcasts/")
 
 (defn download [url]
   "pull down document at url"
@@ -15,21 +15,21 @@
       page.text
       None))
 
-(defn min [string &optional [file-type ""]]
+(defn min [string &optional [file-type "mp3"]]
   "simple string utility"
   (+ (.replace string " " "") "." (str file-type)))
 
-(defn get-content-url [itm attr]
+(defn get-content-url [itm attrs]
   "return download url of an item/episode"
   (setv url (.find-all bs itm "enclosure"))
   (if (= (type url) bs4.element.ResultSet)
-      (.find-all bs (get url 0) attr)
+      (.find-all bs (get url 0) attrs)
       None))
 
 (defn exists? [item]
   "checks if a podcast title exists"
   (setv title (.find bs item "title"))
-  (.exists os.path (+ podcasts (min title.text "mp3"))))
+  (.exists os.path (+ podcasts-dir (min title.text))))
 
 (defn check-dirs [items]
   "parse xml and return a list of urls to download"
