@@ -19,13 +19,13 @@
       (usocket:socket-close socket))))
 
 (defun encrypt-string (packet)
+  "'encryption'"
   (let ((encrypted nil)
-	(k 171)
-	(t 0))
-    (loop for char in packet
-       do
-	 (setq t (logxor (char-code char) k))
-	 (setq k)
+	(k 171))
+    (setq encrypted (map 'string #'(lambda (char) (code-char (setq k (code-char (logxor (char-code char) k))))) packet))))
+
+(defun decrypt-string (packet)
+  ())
 
 (defun make-json (state &optional (hue-value 0) (sat 0) (col-temp 2500) (bright 100))
   "pass me a 0 or 1 to get a json packet to toggle the tplight"
