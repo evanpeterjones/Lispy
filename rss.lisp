@@ -1,13 +1,35 @@
-!/usr/bin/sbcl --script
+#!/usr/bin/sbcl --script
+
+(defpackage #:rss-scrape.main
+  (:use #:cl
+        #:dexador
+        #:plump
+        #:lquery 
+        #:cl-ppcre
+        #:trivial-download)
+  (:export #:run
+           #:))
 
 (ql:quickload '(:dexador :plump :lquery :cl-ppcre :trivial-download) :silent t)
 
 (defparameter podcasts '(("tiny-meat-gang" "http://tinymeatgang.libsyn.com/rssfeed")
                          ("startalk" "http://rss.art19.com/startalk-radio")
-			 ("waking-up" "http://wakingup.libsyn.com/rss")))
+			 ("waking-up" "http://wakingup.libsyn.com/rss")
+                         ("rabbits" "http://rabbits.libsyn.com/rss")
+                         ("jre" "http://joeroganexp.joerogan.libsynpro.com/rss")))
 
 (defparameter user "evanpeterjones")
 (defparameter pod-dir "~/Music/podcasts/")
+
+(defmacro alambda (params &body body)
+  `(labels ((self ,params ,@body))
+     #'self))
+
+(defmacro shorten (title-name)
+;;this needs to be an alambda recursive call
+  (let ((replacements '(#\space "-" "_")))
+    (lambda (replacements) 
+      (self ))))
 
 (defun shorten (title-name)
   "this is horrendous"
@@ -21,7 +43,7 @@
     (loop for title in titles
           for url in urls
           when (and title url)
-       collect (list (shorten title) url))))
+          collect (list (shorten title) url))))
 
 (defun path-maker (file-name podcast-name file-type)
   "helper function to make the absolute path"
@@ -39,7 +61,7 @@
 	  nil)
 	(progn
 	  (format t "Downloading ~S~%" file-name)
-	  (trivial-download:download (second episode) file-name))))))
+	  (trivial-download:download (second episode) file-name)))))
 
 (defun download (episode-list podcast-name)
   "recursive function to download episodes until (download %) returns null"

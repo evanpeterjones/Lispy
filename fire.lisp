@@ -1,4 +1,4 @@
-#!/usr/bin/sbcl --script
+;;#!/usr/bin/sbcl --script
 
 ;; Evan Jones - program for my bro
 
