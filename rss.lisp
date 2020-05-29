@@ -18,8 +18,8 @@
                          ("rabbits" "http://rabbits.libsyn.com/rss")
                          ("jre" "http://joeroganexp.joerogan.libsynpro.com/rss")))
 
-(defparameter user "evanpeterjones")
-(defparameter pod-dir "~/Music/podcasts/")
+(defparameter user "evan")
+(defparameter pod-dir "~/Music/")
 
 (defmacro alambda (params &body body)
   `(labels ((self ,params ,@body))
@@ -49,7 +49,7 @@
   "helper function to make the absolute path"
   (make-pathname
    :directory `(:absolute "home" ,user "Music" "podcasts" ,podcast-name)
-   :name file-name
+   :name (first file-name)
    :type file-type))
 
 (defun down (episode podcast-name)
